@@ -1,41 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace HaphmanCodeLibrary
 {
     public static class HaphmanCode
     {
-        /// <summary>
-        /// Оболочка , запускающая алгоритм построения и отлавливающая любую ошибку в ходе построения кода Хафмана
-        /// </summary>
-        /// <returns>
-        ///     0-ошибка
-        ///     1-успешно
-        /// </returns>
-        public static int BuildCode(string file)
-        {
-            try
-            {
-                Run(file);
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
-
-            return 1;
-        }
-
-        private static void Run(string file)
+        public static Dictionary<char, string> BuildCode(string file)
         {
             var frequencies = GetFrequencies(file);
             var codes = GetCodeHaphman(frequencies);
+            return codes;
         }
 
         private static Dictionary<char, int> GetFrequencies(string file)
@@ -43,7 +22,10 @@ namespace HaphmanCodeLibrary
             var frequencies = new Dictionary<char, int>();
             using (var sr = new StreamReader(file))
             {
-                foreach (var ch in sr.ReadToEnd().Replace(" ",""))
+                var text = sr.ReadToEnd();
+                //var reg = new Regex(@"[\n,\r]");
+                //text = reg.Replace(text, "");
+                foreach (var ch in text)
                 {
                     if (frequencies.ContainsKey(ch)) frequencies[ch]++;
                     else frequencies.Add(ch, 1);
@@ -104,6 +86,42 @@ namespace HaphmanCodeLibrary
             }
             return result;
         }
+        public static string Coding(string text,Dictionary<char, string> codes)
+        {
+            var sb = new StringBuilder();
+            foreach (var ch in text)
+            {
+                if (codes.ContainsKey(ch)) sb.Append(codes[ch]);
+                else throw new ArgumentException("Заданный текст и словарь кодов несовместимы");
+            }
+
+            return sb.ToString();
+        }
+        public static string Decoding(string text, Dictionary<char, string> codes)
+        {
+            var currentCodes = new Dictionary<string, char>();
+            foreach (var key_val in codes)
+            {
+                currentCodes.Add(key_val.Value,key_val.Key);
+            }
+
+            var result = new StringBuilder();
+            var currentCode = new StringBuilder();
+            for (int i = 0;i < text.Length;i++)
+            {
+                if (currentCodes.ContainsKey(currentCode.ToString()))
+                {
+                    result.Append(currentCodes[currentCode.ToString()]);
+                    currentCode = new StringBuilder();
+                }
+                currentCode.Append(text[i]);
+            }
+            if (currentCodes.ContainsKey(currentCode.ToString()))
+            {
+                result.Append(currentCodes[currentCode.ToString()]);
+            }
+            return result.ToString();
+        }
     }
 
     internal class TreeNode:IComparable<TreeNode>
@@ -112,7 +130,7 @@ namespace HaphmanCodeLibrary
 
         public string name;
         public int value;
-        public TreeNode(string name = "",int value = 0)
+        public TreeNode(string name,int value = 0)
         {
             this.name = name;
             this.value = value;
