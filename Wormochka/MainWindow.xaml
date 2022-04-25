@@ -6,5 +6,7 @@
         xmlns:local="clr-namespace:Wormochka"
         mc:Ignorable="d"
         Title="MainWindow" Height="733.978" Width="1219.318">
-    <Grid/>
+    <Grid>
+        <DockPanel LastChildFill="False" Background="#FFCF6565"/>
+    </Grid>
 </Window>
