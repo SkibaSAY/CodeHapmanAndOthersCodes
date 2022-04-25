@@ -12,33 +12,39 @@
                 <Menu.Background>
                     <SolidColorBrush Color="#FF042D56"/>
                 </Menu.Background>
-                <Button x:Name="RunHaphman" Content="Запустить" Height="35" AutomationProperties.Name="run" Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA"/>
+                <Button x:Name="RunHaphman" Content="Запустить" Height="35" AutomationProperties.Name="run" Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA" Click="RunHaphman_Click"/>
             </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="66*"/>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="228*"/>
+                    <ColumnDefinition Width="305*"/>
                     <ColumnDefinition Width="305*"/>
                     <ColumnDefinition Width="305*"/>
                     <ColumnDefinition Width="305*"/>
                 </Grid.ColumnDefinitions>
-                <ScrollViewer x:Name="inputView" Grid.Column="0" Margin="0,0,305,0" Grid.ColumnSpan="4" Foreground="#FF67F3CA">
+                <ScrollViewer x:Name="inputView" Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="1" Foreground="#FF67F3CA">
+                    <TextBlock Name="inputText" FontSize="12" FontStyle="Oblique" FontWeight="DemiBold" Width="282"></TextBlock>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
-                <ScrollViewer x:Name="codesView" Grid.Column="3" Margin="0,0,304,0" Grid.ColumnSpan="2" Foreground="#FF0078D7">
+                <ScrollViewer x:Name="codesView" Grid.Column="1" Margin="0,0,0,0" Grid.ColumnSpan="2" Foreground="#FF0078D7">
+                    <TextBlock Name="codesText" FontSize="12" FontStyle="Oblique" FontWeight="DemiBold" Width="314" RenderTransformOrigin="0.025,0.504"></TextBlock>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="#FF67F3CA"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
-                <ScrollViewer x:Name="encryptView" Grid.Column="4" Foreground="#FF67F3CA">
+                <ScrollViewer x:Name="encryptView" Grid.Column="2" Foreground="#FF67F3CA" Grid.ColumnSpan="3">
+                    <TextBlock Name="encryptText" FontSize="12" FontStyle="Oblique" FontWeight="DemiBold" Width="276"></TextBlock>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="#FF0078D7"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
-                <ScrollViewer x:Name="decryptView" Grid.Column="4" Background="#FF67F3CA" Grid.ColumnSpan="2" Margin="304,0,0,0" Foreground="#FF0078D7"/>
+                <ScrollViewer x:Name="decryptView" Grid.Column="3" Foreground="#FF67F3CA" Grid.ColumnSpan="4">
+                    <TextBlock Name="decryptText" FontSize="12" FontStyle="Oblique" FontWeight="DemiBold" Width="276"></TextBlock>
+                    <ScrollViewer.Background>
+                        <SolidColorBrush Color="#FF0078D7"/>
+                    </ScrollViewer.Background>
+                </ScrollViewer>
             </Grid>
         </DockPanel>
     </Grid>
