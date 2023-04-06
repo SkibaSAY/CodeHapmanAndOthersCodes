@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeHaphmanLibrary.Codes
 {
-    public class PhanoShenonCode:ICode
+    public class PhanoShenonCode
     {
 
     }

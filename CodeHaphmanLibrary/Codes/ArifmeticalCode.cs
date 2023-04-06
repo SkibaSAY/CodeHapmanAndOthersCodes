@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeHaphmanLibrary.Codes
 {
-    public class ArifmeticalCode:ICode
+    public class ArifmeticalCode
     {
     }
 }

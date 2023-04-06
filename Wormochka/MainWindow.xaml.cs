@@ -34,7 +34,7 @@ namespace Wormochka
             if (sd.ShowDialog() == false) return;
             var text = File.ReadAllText(sd.FileName);
             inputText.Text = text;
-            var dict = HaphmanCode.BuildCode(sd.FileName);
+            var dict = HaphmanCode.BuildCode(text);
 
             codesText.Text = String.Join("\n",dict.ToArray());
 
