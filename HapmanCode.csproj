@@ -54,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CodeHaphmanLibrary\HaphmanCodeLibrary.csproj">
+    <ProjectReference Include="CodeHaphmanLibrary\CodesLibrary.csproj">
       <Project>{b85c502d-7aca-4e73-82ff-68e63cfd4b84}</Project>
-      <Name>HaphmanCodeLibrary</Name>
+      <Name>CodesLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

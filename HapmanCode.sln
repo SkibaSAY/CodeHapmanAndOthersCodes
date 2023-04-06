@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32414.318
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HapmanCode", "HapmanCode.csproj", "{90851224-4E45-4767-B595-29076BF02F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaphmanCodeLibrary", "CodeHaphmanLibrary\HaphmanCodeLibrary.csproj", "{B85C502D-7ACA-4E73-82FF-68E63CFD4B84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodesLibrary", "CodeHaphmanLibrary\CodesLibrary.csproj", "{B85C502D-7ACA-4E73-82FF-68E63CFD4B84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wormochka", "Wormochka\Wormochka.csproj", "{1726AC2E-FF22-4271-9C67-8C3254C42809}"
 EndProject
