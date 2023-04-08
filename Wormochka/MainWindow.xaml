@@ -12,7 +12,8 @@
                 <Menu.Background>
                     <SolidColorBrush Color="#FF042D56"/>
                 </Menu.Background>
-                <Button x:Name="RunHaphman" Content="Запустить" Height="35" AutomationProperties.Name="run" Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA" Click="RunHaphman_Click" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover"/>
+                <Button x:Name="RunHaphman" Content="Хафман" Height="35" AutomationProperties.Name="run" Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA" Click="RunHaphman_Click" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover"/>
+                <Button x:Name="RunHemming" Content="Хэмминг" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA" Click="RunHemming_Click" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover"/>
             </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>

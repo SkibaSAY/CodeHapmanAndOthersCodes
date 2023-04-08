@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HaphmanCodeLibrary;
+using HemmingCodeLibrary;
 
 namespace Wormochka
 {
@@ -42,6 +43,25 @@ namespace Wormochka
             encryptText.Text = codedText;
             var decodText = HaphmanCode.Decoding(codedText, dict);
             decryptText.Text = decodText;
+        }
+
+        private void RunHemming_Click(object sender, RoutedEventArgs e)
+        {
+            var sd = new OpenFileDialog();
+            if (sd.ShowDialog() == false) return;
+            var text = File.ReadAllText(sd.FileName);
+            inputText.Text = text;
+            var hemmingCode = new HemmingCode();
+
+            try
+            {
+                var codedText = hemmingCode.Coding(text);
+                encryptText.Text = codedText;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
