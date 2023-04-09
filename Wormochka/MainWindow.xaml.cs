@@ -53,15 +53,20 @@ namespace Wormochka
             inputText.Text = text;
             var hemmingCode = new HemmingCode();
 
+            var codedText = "";
             try
             {
-                var codedText = hemmingCode.Coding(text);
+                codedText = hemmingCode.Coding(text);
                 encryptText.Text = codedText;
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
+            //тут всё верно. Делаем вид, что входная строка - это уже код и исправляем
+            var decodeText = hemmingCode.Decoding(text);
+            decryptText.Text = decodeText;
         }
     }
 }

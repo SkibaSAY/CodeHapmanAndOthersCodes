@@ -20,7 +20,7 @@ namespace HemmingCodeLibrary
 
         private bool[,] codeMatrix;
 
-        private List<long> stepsOf2 = new List<long>();
+        private List<int> stepsOf2 = new List<int>();
         public HemmingCode()
         {
             sizeOfCodingMatrix = 0;
@@ -36,13 +36,13 @@ namespace HemmingCodeLibrary
 
             //заполняем матрицу Хэмминга
             codeMatrix = new bool[sizeOfCodingMatrix, widthOfCodeMatrix];
-            bool currentBit = true;
+            bool currentBit;
             for(int i = 0; i < sizeOfCodingMatrix; i++)
             {
-                currentBit = true;
+                currentBit = false;
                 for (int j = 0; j < widthOfCodeMatrix; j++)
                 {
-                    if (j % stepsOf2[i] == 0)
+                    if ((j + 1) % stepsOf2[i] == 0)
                     {
                         currentBit = !currentBit;
                     }
@@ -72,9 +72,9 @@ namespace HemmingCodeLibrary
             var currentInputBlock = "";
             while (input.Length > 0)
             {
-                currentInputBlock = inputText.Substring(0, Math.Min(input.Length, 16));
+                currentInputBlock = inputText.Substring(0, Math.Min(input.Length, sizeOfBlock));
                 codedText += CodeOneBlock(currentInputBlock);
-                input = input.Remove(0, Math.Min(input.Length, 16));
+                input = input.Remove(0, Math.Min(input.Length, sizeOfBlock));
             }
             return codedText;
         }
@@ -137,14 +137,83 @@ namespace HemmingCodeLibrary
         }
 
 
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
+        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath = "")
         {
-            throw new NotImplementedException();
+            var beforeCodingSize = new FileInfo(inputFilePath).Length;
+            var afterCodingSize = new FileInfo(outputFilePath).Length;
+            return beforeCodingSize / afterCodingSize;
         }
 
-        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
+
+        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath = "")
         {
-            throw new NotImplementedException();
+            var inputText = File.ReadAllText(inputFilePath);
+
+
+            var decodedText = Decoding(inputText);
+            File.WriteAllText(outputFilePath, decodedText);
         }
+
+        public string Decoding(string inputText)
+        {
+            var input = new StringBuilder(inputText);
+
+            var codedText = "";
+            var currentInputBlock = "";
+            while (input.Length > 0)
+            {
+                currentInputBlock = inputText.Substring(0, Math.Min(input.Length, widthOfCodeMatrix));
+                codedText += DecodeAndCorrectOneBlock(currentInputBlock);
+                input = input.Remove(0, Math.Min(input.Length, widthOfCodeMatrix));
+            }
+            return codedText;
+        }
+
+        private string DecodeAndCorrectOneBlock(string inputBlock)
+        {
+            var inputLength = inputBlock.Length;
+
+            //проверяем контрольные биты
+            var errorBit = 0;
+            for (int i = 0; i < stepsOf2.Count; i++)
+            {
+                if (stepsOf2[i] - 1 >= inputLength) break;
+                bool controlBit = false;
+                for (int j = 0; j < inputLength; j++)
+                {
+                    if (!stepsOf2.Contains(j + 1) && codeMatrix[i, j] || stepsOf2[i] == j + 1)
+                    {
+                        controlBit = controlBit ^ (inputBlock[j] == '1');
+                    }
+                }
+                if(controlBit)
+                {
+                    errorBit += stepsOf2[i];
+                }  
+            }
+            errorBit--;
+
+            //получаем строку из битов и исправляем ошибку
+            var res = new StringBuilder();
+            for (int i = 0; i < inputLength; i++)
+            {
+                if (!stepsOf2.Contains(i + 1))
+                {
+                    if (errorBit != i)
+                    {
+                        res.Append(inputBlock[i]);
+                    }
+                    else
+                    {
+                        //берем противоположный бит
+                        res.Append(char.ConvertFromUtf32((inputBlock[i]+1)%2+48));
+                    }
+                }
+            }
+            return res.ToString();
+        }
+
+
+
     }
 }
