@@ -14,8 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HaphmanCodeLibrary;
-using HemmingCodeLibrary;
+using CodesLibrary;
 
 namespace Wormochka
 {
@@ -67,6 +66,26 @@ namespace Wormochka
             //тут всё верно. Делаем вид, что входная строка - это уже код и исправляем
             var decodeText = hemmingCode.Decoding(text);
             decryptText.Text = decodeText;
+        }
+
+        private void RunAriph_Click(object sender, RoutedEventArgs e)
+        {
+            var sd = new OpenFileDialog();
+            if (sd.ShowDialog() == false) return;
+            var text = File.ReadAllText(sd.FileName);
+            inputText.Text = text;
+            var ariphCode = new ArifmeticalCode();
+
+            var codedText = "";
+            try
+            {
+                codedText = ariphCode.Coding(text);
+                encryptText.Text = codedText;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

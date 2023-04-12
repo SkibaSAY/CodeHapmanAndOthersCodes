@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace CodeHaphmanLibrary.Codes
+namespace CodesLibrary
 {
     public class ArifmeticalCode : ICode
     {
@@ -36,6 +36,9 @@ namespace CodeHaphmanLibrary.Codes
 
             double currentCodeStart = 0;
             double currentCodeEnd = countOfLetters;
+            string stringCodeStart = currentCodeStart.ToString();
+            string stringCodeEnd = currentCodeEnd.ToString();
+            var res = "";
 
             foreach (var symbol in inputText)
             {
@@ -51,9 +54,21 @@ namespace CodeHaphmanLibrary.Codes
 
                 currentCodeStart *= lengthOfInterval / countOfLetters;
                 currentCodeEnd = currentCodeStart + alphabetOfProbabilities[symbol] * lengthOfInterval / countOfLetters;
+
+                stringCodeStart = currentCodeStart.ToString();
+                stringCodeEnd = currentCodeEnd.ToString();
+                int i = 0;
+                while(stringCodeStart[i] == stringCodeEnd[i])
+                {
+                    res += stringCodeStart[i];
+                    stringCodeStart.Remove(0, 1);
+                    stringCodeEnd.Remove(0, 1);
+                }
+                currentCodeStart = int.Parse(stringCodeStart);
+                currentCodeEnd = int.Parse(stringCodeEnd);
             }
 
-            return currentCodeStart.ToString();
+            return res;
 
         }
         public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)

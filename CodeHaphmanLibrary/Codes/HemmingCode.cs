@@ -7,7 +7,7 @@ using CodeLibrary;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace HemmingCodeLibrary
+namespace CodesLibrary
 {
     public class HemmingCode : ICode
     {
