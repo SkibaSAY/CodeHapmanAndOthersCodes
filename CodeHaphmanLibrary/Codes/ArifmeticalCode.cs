@@ -44,8 +44,8 @@ namespace CodesLibrary
             {
                 var curIndexInAlph = alphabetOfProbabilities.IndexOfKey(symbol);
                 var lengthOfInterval = currentCodeEnd - currentCodeStart;
+                var startOfInterval = currentCodeStart;
                 currentCodeStart = 0;
-
                 foreach (var letter in alphabetOfProbabilities)
                 {
                     if (letter.Key == symbol) break;
@@ -53,22 +53,26 @@ namespace CodesLibrary
                 }
 
                 currentCodeStart *= lengthOfInterval / countOfLetters;
+                currentCodeStart += startOfInterval;
                 currentCodeEnd = currentCodeStart + alphabetOfProbabilities[symbol] * lengthOfInterval / countOfLetters;
 
                 stringCodeStart = currentCodeStart.ToString();
                 stringCodeEnd = currentCodeEnd.ToString();
                 int i = 0;
-                while(stringCodeStart[i] == stringCodeEnd[i])
+                while(stringCodeStart.Length > i && stringCodeEnd.Length > i && stringCodeStart[i] == stringCodeEnd[i])
                 {
-                    res += stringCodeStart[i];
-                    stringCodeStart.Remove(0, 1);
-                    stringCodeEnd.Remove(0, 1);
+                    if (stringCodeStart[i] != ',')
+                    {
+                        res += stringCodeStart[i];
+                    }
+                    stringCodeStart = stringCodeStart.Remove(0, 1);
+                    stringCodeEnd = stringCodeEnd.Remove(0, 1);
                 }
-                currentCodeStart = int.Parse(stringCodeStart);
-                currentCodeEnd = int.Parse(stringCodeEnd);
+                currentCodeStart = double.Parse(stringCodeStart);
+                currentCodeEnd = double.Parse(stringCodeEnd);
             }
 
-            return res;
+            return res + stringCodeEnd[0];
 
         }
         public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
