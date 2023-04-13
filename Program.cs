@@ -12,6 +12,10 @@ namespace HapmanCode
     {
         static void Main(string[] args)
         {
+            Lz77CodeTest();
+        }
+        static void HaphmanCodeTest()
+        {
             string file = "input.txt";
             var a = HaphmanCode.BuildCode(file);
             var text = File.ReadAllText(file);
@@ -19,6 +23,15 @@ namespace HapmanCode
             Console.WriteLine(codingText);
             Console.WriteLine("-----------------------------------");
             Console.WriteLine(HaphmanCode.Decoding(codingText, a));
+        }
+        static void Lz77CodeTest()
+        {
+            string fileInput = "input.txt";
+            string fileOut = "output.txt";
+            string fileResources = "resources.txt";
+            var code =  new LZ_77_Code();
+
+            code.Code(fileInput, fileOut, fileResources);
         }
     }
 }
