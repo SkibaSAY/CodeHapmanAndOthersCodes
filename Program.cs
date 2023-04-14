@@ -26,12 +26,14 @@ namespace HapmanCode
         }
         static void Lz77CodeTest()
         {
-            string fileInput = "input.txt";
-            string fileOut = "output.txt";
-            string fileResources = "resources.txt";
+            var fileInput = "input.txt";
             var code =  new LZ_77_Code();
 
-            code.Code(fileInput, fileOut, fileResources);
+            var input = File.ReadAllText(fileInput);
+
+            code.Code(input, out string output,out string resources);
+
+            var k = code.CompressionRate(input, null, resources);
         }
     }
 }

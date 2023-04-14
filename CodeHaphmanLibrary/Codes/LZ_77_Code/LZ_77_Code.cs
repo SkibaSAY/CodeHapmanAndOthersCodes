@@ -13,54 +13,60 @@ namespace CodesLibrary
     public class LZ_77_Code : ICode
     {
         public readonly int _searchBufferSize;
-        public LZ_77_Code(int searchBufferSize = 1024)
+        public LZ_77_Code(int searchBufferSize = 256)
         {
             this._searchBufferSize = searchBufferSize;
         }
 
-        public void Code(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Code(string inputText, out string outputText, out string resourses)
         {
-            var text = File.ReadAllText(inputFilePath);
-
             LzBuffer searchBuffer = new LzBuffer(size: _searchBufferSize);
-            LzBuffer sourceBuffer = new LzBuffer(text, text.Length);
-            List<Lz77Mark> marks = new List<Lz77Mark>();        
+            List<char> sourceBuffer = inputText.Select(ch=>ch).ToList();
+            List<Lz77Mark> marks = new List<Lz77Mark>();
 
-            while(sourceBuffer.Count > 0)
+            var sourceIterator = 0;
+            while (sourceBuffer.Count > sourceIterator)
             {
                 var offSet = 0;
                 var offSetLength = 0;
-                char nextCh='$';
+                char nextCh = '$';
 
                 var set = new List<char>();
 
-                for (; offSetLength < sourceBuffer.Count; offSetLength++)
+                for (; sourceBuffer.Count > sourceIterator; offSetLength++)
                 {
-                    nextCh = sourceBuffer.Next();
+                    nextCh = sourceBuffer[sourceIterator];
+                    sourceIterator++;
+
                     set.Add(nextCh);
 
                     var index = searchBuffer.FindFirstIndex(set);
                     if (index == -1) break;
-                    offSet = index;
+
+                    offSet = searchBuffer.Count-index-1;
                 }
 
-                marks.Add(new Lz77Mark {
+                marks.Add(new Lz77Mark
+                {
                     OffSet = offSet,
                     OfSetLength = offSetLength,
                     Next = nextCh
                 });
+                searchBuffer.Append(set.ToArray());
             }
 
-            var resourceAsJson = JsonConvert.SerializeObject(marks);
-            File.WriteAllText(resoursesPath, resourceAsJson);
+            resourses = JsonConvert.SerializeObject(marks);
+            outputText = null;
         }
 
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
+        public double CompressionRate(string inputText, string outputText, string resourses)
         {
-            throw new NotImplementedException();
+            var marks = JsonConvert.DeserializeObject<List<Lz77Mark>>(resourses);
+            var compressionRate = inputText.Length * 8.0 / (marks.Count * 8 * 3);
+            return compressionRate;
         }
 
-        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Decode(string inputText, out string outputText, string resourses)
         {
             throw new NotImplementedException();
         }

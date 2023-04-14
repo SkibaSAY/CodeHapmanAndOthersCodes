@@ -20,7 +20,7 @@ namespace CodeHaphmanLibrary.Codes.LZ_77_Code
 
         public void Append(params char[] newItems)
         {
-            _items.Insert(0, new string(newItems));
+            _items.Insert(Count, new string(newItems));
             BalanceSize();
         }
 
@@ -28,7 +28,7 @@ namespace CodeHaphmanLibrary.Codes.LZ_77_Code
         {
             if(_items.Length > Size)
             {
-                _items.Remove(Size, _items.Length - Size);
+                _items.Remove(0, _items.Length - Size);
             }
         }
 
@@ -39,7 +39,7 @@ namespace CodeHaphmanLibrary.Codes.LZ_77_Code
 
         public int FindFirstIndex(IEnumerable<char> searchedItems)
         {
-            var  index = BrutForce<char>.FindFirst(_items.ToString(), searchedItems, Comparer<char>.Default);
+            var  index = BrutForce<char>.FindLast(_items.ToString(), searchedItems, Comparer<char>.Default);
             return index;
         }
 
@@ -53,8 +53,8 @@ namespace CodeHaphmanLibrary.Codes.LZ_77_Code
         {
             if (_items.Length == 0) throw new Exception("Buffer is Empty");           
 
-            var next = _items[_items.Length - 1];
-            _items.Remove(_items.Length - 1,1);
+            var next = _items[0];
+            _items.Remove(0,1);
 
             return next;
         }

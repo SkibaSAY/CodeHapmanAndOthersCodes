@@ -8,8 +8,8 @@ namespace CodeLibrary
 {
     public interface ICode
     {
-        void Code(string inputFilePath, string outputFilePath, string resoursesPath);
-        decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath);
-        void Decode(string inputFilePath, string outputFilePath, string resoursesPath);
+        void Code(string inputText, out string outputText, out string resourses);
+        double CompressionRate(string inputText, string outputText, string resourses);
+        void Decode(string inputText, out string outputText, string resourses);
     }
 }
