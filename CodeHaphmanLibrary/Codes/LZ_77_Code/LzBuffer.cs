@@ -39,7 +39,8 @@ namespace CodeHaphmanLibrary.Codes.LZ_77_Code
 
         public int FindFirstIndex(IEnumerable<char> searchedItems)
         {
-            var  index = BrutForce<char>.FindLast(_items.ToString(), searchedItems, Comparer<char>.Default);
+            //var  index = BrutForce<char>.FindLast(_items.ToString(), searchedItems, Comparer<char>.Default);
+            var index = _items.ToString().IndexOf(new string(searchedItems.ToArray()));
             return index;
         }
 

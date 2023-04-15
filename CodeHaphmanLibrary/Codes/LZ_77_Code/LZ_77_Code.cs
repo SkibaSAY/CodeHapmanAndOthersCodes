@@ -13,7 +13,7 @@ namespace CodesLibrary
     public class LZ_77_Code : ICode
     {
         public readonly int _searchBufferSize;
-        public LZ_77_Code(int searchBufferSize = 256)
+        public LZ_77_Code(int searchBufferSize = 1024)
         {
             this._searchBufferSize = searchBufferSize;
         }
@@ -21,11 +21,11 @@ namespace CodesLibrary
         public void Code(string inputText, out string outputText, out string resourses)
         {
             LzBuffer searchBuffer = new LzBuffer(size: _searchBufferSize);
-            List<char> sourceBuffer = inputText.Select(ch=>ch).ToList();
+            List<char> sources = inputText.Select(ch=>ch).ToList();
             List<Lz77Mark> marks = new List<Lz77Mark>();
 
             var sourceIterator = 0;
-            while (sourceBuffer.Count > sourceIterator)
+            while (sources.Count > sourceIterator)
             {
                 var offSet = 0;
                 var offSetLength = 0;
@@ -33,9 +33,9 @@ namespace CodesLibrary
 
                 var set = new List<char>();
 
-                for (; sourceBuffer.Count > sourceIterator; offSetLength++)
+                for (; sources.Count > sourceIterator; offSetLength++)
                 {
-                    nextCh = sourceBuffer[sourceIterator];
+                    nextCh = sources[sourceIterator];
                     sourceIterator++;
 
                     set.Add(nextCh);
