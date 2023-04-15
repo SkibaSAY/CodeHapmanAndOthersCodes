@@ -72,7 +72,13 @@ namespace CodesLibrary
             var sb = new StringBuilder();
             foreach(var mark in marks)
             {
-                //if()
+                if(mark.OffSet!= 0)
+                {
+                    var startOffSetIndex = sb.Length - mark.OffSet;
+                    var offSet = sb.ToString().Substring(startOffSetIndex, mark.OfSetLength);
+                    sb.Append(offSet);
+                }
+                sb.Append(mark.Next);
             }
 
             outputText = sb.ToString();

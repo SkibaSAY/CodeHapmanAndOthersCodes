@@ -34,6 +34,8 @@ namespace HapmanCode
             code.Code(input, out string output,out string resources);
 
             var k = code.CompressionRate(input, null, resources);
+
+            code.Decode(null,out string outPut, resources);
         }
     }
 }
