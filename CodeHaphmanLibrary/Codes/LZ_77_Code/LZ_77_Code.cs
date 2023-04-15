@@ -43,7 +43,7 @@ namespace CodesLibrary
                     var index = searchBuffer.FindFirstIndex(set);
                     if (index == -1) break;
 
-                    offSet = searchBuffer.Count-index-1;
+                    offSet = searchBuffer.Count-index;
                 }
 
                 marks.Add(new Lz77Mark
@@ -68,7 +68,14 @@ namespace CodesLibrary
 
         public void Decode(string inputText, out string outputText, string resourses)
         {
-            throw new NotImplementedException();
+            var marks = JsonConvert.DeserializeObject<List<Lz77Mark>>(resourses);
+            var sb = new StringBuilder();
+            foreach(var mark in marks)
+            {
+                //if()
+            }
+
+            outputText = sb.ToString();
         }
     }
 }

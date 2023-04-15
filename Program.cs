@@ -27,7 +27,7 @@ namespace HapmanCode
         }
         static void Lz77CodeTest()
         {
-            var fileInput = "input1.txt";
+            var fileInput = "input.txt";
             var input = File.ReadAllText(fileInput);
             var code =  new LZ_77_Code(10000);
 
