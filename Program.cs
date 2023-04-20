@@ -13,7 +13,15 @@ namespace HapmanCode
         static void Main(string[] args)
         {
             //HaphmanCodeTest();
-            Lz77CodeTest();
+            //Lz77CodeTest();
+            PreobrazBArrouzeYileraCode();
+        }
+        static void PreobrazBArrouzeYileraCode()
+        {
+            //var str = "abcabcabca";
+            var str = "abcabcabcaasdasdfgarqdfsacsdfawsewasxdasdasdad";
+            var bwt = new BWTCode();
+            var result = bwt.Coding(str);
         }
         static void HaphmanCodeTest()
         {
