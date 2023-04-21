@@ -1,4 +1,5 @@
 ﻿using CodeHaphmanLibrary.Codes;
+using CodeHaphmanLibrary.Codes.BWT;
 using CodeLibrary;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,9 @@ namespace CodesLibrary
     {
         public void Code(string inputText, out string outputText, out string resourses)
         {
-            throw new NotImplementedException();
+            resourses = null;
+            var result = Coding(inputText);
+            outputText = $"{result.lastColumn},{result.rowNumber}";
         }
         public (string lastColumn, int rowNumber) Coding(string inputText)
         {
@@ -41,12 +44,36 @@ namespace CodesLibrary
 
         public double CompressionRate(string inputText, string outputText, string resourses)
         {
-            throw new NotImplementedException();
+            var rate = inputText.Length * 8.0 / ((outputText.Length - 1) * 8);
+            return rate;
         }
 
         public void Decode(string inputText, out string outputText, string resourses)
         {
-            throw new NotImplementedException();
+            var arr = inputText.Split(new char[] { ',' });
+            var code = (lastColumn: arr[0], rowNumber: int.Parse(arr[1]));
+            outputText = Decoding(code);
+        }
+
+        private ListComparer<List<char>> _listComparer = new ListComparer<List<char>>();
+        public string Decoding((string lastColumn, int rowNumber) code)
+        {
+            code.lastColumn = RLECode.Decoding(code.lastColumn);
+            var lastColumn = code.lastColumn;
+            var len = code.lastColumn.Length;
+            var rows = new Char[len].Select(l=>new List<char>()).ToArray();
+
+            for (var i = 0;i < len; i++)
+            {
+                for(var j = 0; j < len; j++)
+                {
+                    rows[j].Insert(0, lastColumn[j]);
+                }
+                Array.Sort(rows, _listComparer);
+            }
+
+            var result = new String(rows[code.rowNumber].ToArray());
+            return result;
         }
     }
 }

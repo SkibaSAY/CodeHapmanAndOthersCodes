@@ -22,6 +22,12 @@ namespace HapmanCode
             var str = "abcabcabcaasdasdfgarqdfsacsdfawsewasxdasdasdad";
             var bwt = new BWTCode();
             var result = bwt.Coding(str);
+
+            var decodingResult = bwt.Decoding(result);
+            if (!str.Equals(decodingResult))
+            {
+                throw new Exception("Что то пошло не так.");
+            }
         }
         static void HaphmanCodeTest()
         {
