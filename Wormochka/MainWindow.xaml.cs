@@ -86,6 +86,9 @@ namespace Wormochka
             {
                 MessageBox.Show(ex.Message);
             }
+
+            var decodeText = ariphCode.Decoding(codedText);
+            decryptText.Text = decodeText;
         }
     }
 }

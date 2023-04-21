@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace CodesLibrary
 {
@@ -15,11 +16,15 @@ namespace CodesLibrary
         public void Code(string inputFilePath, string outputFilePath, string resoursesPath)
         {
             var inputText = File.ReadAllText(inputFilePath);
+            var result = Coding(inputText);
+            File.WriteAllText(outputFilePath, result);
+
+            var jsonResourse = JsonConvert.SerializeObject(alphabetOfProbabilities);
+            File.WriteAllText(resoursesPath, jsonResourse);
         }
 
         public string Coding(string inputText)
         {
-            //тут пока наивный алгоритм. Без оптимизации под длинный текст
             //заполняем алфавит
             foreach (var symbol in inputText)
             {
@@ -58,12 +63,22 @@ namespace CodesLibrary
 
                 stringCodeStart = currentCodeStart.ToString();
                 stringCodeEnd = currentCodeEnd.ToString();
-                int i = 0;
-                while(stringCodeStart.Length > i && stringCodeEnd.Length > i && stringCodeStart[i] == stringCodeEnd[i])
+
+                while(stringCodeStart.Length > stringCodeEnd.Length)
                 {
-                    if (stringCodeStart[i] != ',')
+                    stringCodeEnd += "0";
+                }
+
+                while(stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0] &&
+                    stringCodeStart[1]!='0' && stringCodeEnd[1] != '0')
+                {
+                    if (stringCodeStart[0] != ',')
                     {
-                        res += stringCodeStart[i];
+                        res += stringCodeStart[0];
+                    }
+                    else if(!res.Contains("."))
+                    {
+                        res += ",";
                     }
                     stringCodeStart = stringCodeStart.Remove(0, 1);
                     stringCodeEnd = stringCodeEnd.Remove(0, 1);
@@ -84,7 +99,76 @@ namespace CodesLibrary
 
         public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
         {
-            throw new NotImplementedException();
+            var inputNumber = File.ReadAllText(inputFilePath);
+
+            var jsonResourse = File.ReadAllText(resoursesPath);
+
+            alphabetOfProbabilities = JsonConvert.DeserializeObject<SortedList<char, uint>>(jsonResourse);
+
+            var decodedText = Decoding(inputNumber);
+            File.WriteAllText(outputFilePath, decodedText);
+        }
+
+        public string Decoding(string inputNumber)
+        {
+            ulong countOfLetters = 0;
+            var codeNumber = new StringBuilder(inputNumber);
+
+            //заполняем алфавит
+            foreach (var symbol in alphabetOfProbabilities)
+            {
+                countOfLetters += symbol.Value;
+            }
+
+            double currentCodeStart = 0;
+            double currentCodeEnd = countOfLetters;
+            string stringCodeStart = currentCodeStart.ToString();
+            string stringCodeEnd = currentCodeEnd.ToString();
+            var res = "";
+
+            for (uint i = 0; i < countOfLetters;i++)
+            {
+                var curNumber = double.Parse(codeNumber.ToString());
+                var lengthOfInterval = currentCodeEnd - currentCodeStart;
+
+                foreach (var letter in alphabetOfProbabilities)
+                {
+                    currentCodeStart += letter.Value * lengthOfInterval / countOfLetters;
+                    stringCodeStart = currentCodeStart.ToString();
+                    if (currentCodeStart > curNumber)
+                    {
+                        currentCodeEnd = currentCodeStart;
+                        currentCodeStart -= letter.Value * lengthOfInterval / countOfLetters;
+                        res += letter.Key;
+                        break;
+                    }
+                }
+
+                stringCodeStart = currentCodeStart.ToString();
+                stringCodeEnd = currentCodeEnd.ToString();
+                while(stringCodeStart.Length > stringCodeEnd.Length)
+                {
+                    stringCodeEnd += "0";
+                }
+                while (stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0] &&
+                    stringCodeStart[1] != '0' && stringCodeEnd[1] != '0')
+                {
+                    codeNumber.Remove(0, 1);
+                    stringCodeStart = stringCodeStart.Remove(0, 1);
+                    stringCodeEnd = stringCodeEnd.Remove(0, 1);
+                }
+                if(stringCodeStart.Length > codeNumber.Length && (stringCodeStart.IndexOf(",") == -1 || stringCodeStart.IndexOf(",") > codeNumber.Length))
+                {
+                    codeNumber.Append("0");
+                    stringCodeStart = stringCodeStart.Substring(0, codeNumber.Length);
+                    stringCodeEnd   = stringCodeEnd.Substring(0, codeNumber.Length);
+                }
+                currentCodeStart = double.Parse(stringCodeStart);
+                currentCodeEnd = double.Parse(stringCodeEnd);
+            }
+
+            return res;
+
         }
     }
 }
