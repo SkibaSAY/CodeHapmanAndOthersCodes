@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace CodesLibrary
 {
-    public class HemmingCode : ICode
+    public class HemmingCode
     {
         //будем кодировать блоками по 16 бит
         private int sizeOfBlock = 16;

@@ -48,9 +48,14 @@
     <Compile Include="Codes\HaphmanCode.cs" />
     <Compile Include="Codes\HemmingCode.cs" />
     <Compile Include="Codes\Linear5_2Code.cs" />
-    <Compile Include="Codes\LZ_77_Code.cs" />
+    <Compile Include="Codes\LZ_77_Code\BrutForce.cs" />
+    <Compile Include="Codes\LZ_77_Code\IBuffer.cs" />
+    <Compile Include="Codes\LZ_77_Code\Lz77Mark.cs" />
+    <Compile Include="Codes\LZ_77_Code\LzBuffer.cs" />
+    <Compile Include="Codes\LZ_77_Code\LZ_77_Code.cs" />
     <Compile Include="Codes\PhanoShenonCode.cs" />
-    <Compile Include="Codes\RLF_PreoobrazBarrouzeYileraCode.cs" />
+    <Compile Include="Codes\BWTCode.cs" />
+    <Compile Include="Codes\RLECode.cs" />
     <Compile Include="ICode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

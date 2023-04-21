@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace CodesLibrary
 {
-    public class HaphmanCode:ICode
+    public class HaphmanCode
     {
         public HaphmanCode()
         {

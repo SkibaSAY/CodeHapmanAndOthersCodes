@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace CodesLibrary
 {
-    public class ArifmeticalCode : ICode
+    public class ArifmeticalCode
     {
         public SortedList<char, uint> alphabetOfProbabilities = new SortedList<char, uint>();
 
