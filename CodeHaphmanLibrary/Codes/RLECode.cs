@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CodeHaphmanLibrary.Codes
@@ -21,12 +22,27 @@ namespace CodeHaphmanLibrary.Codes
                 }
                 else
                 {
-                    sb.Append($"{currentCount}{currentCh}");
+                    sb.Append($"{currentCh}{currentCount}");
                     currentCount = 1;
                     currentCh = ch;
                 }
             }
-            sb.Append($"{currentCount}{currentCh}");
+            sb.Append($"{currentCh}{currentCount}");
+            return sb.ToString();
+        }
+
+        private static Regex rleRegex = new Regex(@"(?<char>\w+?)(?<count>\d+?)");
+        public static string Decoding(string inputStr)
+        {
+            var sb = new StringBuilder();
+            var matches = rleRegex.Matches(inputStr);
+            foreach(Match m in matches)
+            {
+                var ch = m.Groups["char"].Value;
+                var count = int.Parse(m.Groups["count"].Value);
+                var str = String.Join("",Enumerable.Repeat(ch, count));
+                sb.Append(str);
+            }
             return sb.ToString();
         }
     }
