@@ -23,7 +23,38 @@ namespace CodesLibrary
 
         public string Coding(string inputText)
         {
-            throw new NotImplementedException();
+            var alphabetOfProbabilities = new Dictionary<char, int>();
+            var res = "";
+            foreach(var symbol in inputText)
+            {
+                if (alphabetOfProbabilities.ContainsKey(symbol))
+                {
+                    alphabetOfProbabilities[symbol]++;
+                }
+                else
+                {
+                    alphabetOfProbabilities.Add(symbol, 1);
+                }
+            }
+
+            var listOfProbabilities = new TreeNode[alphabetOfProbabilities.Count()];
+            int i = 0;
+            foreach (var pair in alphabetOfProbabilities)
+            {
+                listOfProbabilities[i] = new TreeNode(pair.Key.ToString(), pair.Value);
+                i++;
+            }
+            Array.Sort(listOfProbabilities);
+
+            //var nameOfNode = 
+            //var set = new TreeNode(String.Join("", alphabetOfProbabilities.Keys), alphabetOfProbabilities.Values.Sum());
+            //while ()
+            //{
+            //    var 
+            //}
+            
+
+            return res;
         }
 
         public double CompressionRate(string inputText, string outputText, string resourses)
@@ -48,4 +79,5 @@ namespace CodesLibrary
             throw new NotImplementedException();
         }
     }
+
 }
