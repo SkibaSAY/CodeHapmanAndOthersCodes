@@ -13,14 +13,13 @@ namespace CodesLibrary
     {
         public SortedList<char, uint> alphabetOfProbabilities = new SortedList<char, uint>();
 
-        public void Code(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Code(string inputText, out string outputText, out string resourses)
         {
-            var inputText = File.ReadAllText(inputFilePath);
             var result = Coding(inputText);
-            File.WriteAllText(outputFilePath, result);
+            outputText = result;
 
             var jsonResourse = JsonConvert.SerializeObject(alphabetOfProbabilities);
-            File.WriteAllText(resoursesPath, jsonResourse);
+            resourses = jsonResourse;
         }
 
         public string Coding(string inputText)
@@ -84,23 +83,21 @@ namespace CodesLibrary
             return res + stringCodeEnd[0];
 
         }
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
+        public decimal CompressionRate(string inputText, string outputText, string resourses)
         {
-            var beforeCodingSize = new FileInfo(inputFilePath).Length;
-            var afterCodingSize = new FileInfo(outputFilePath).Length;
+            var beforeCodingSize = inputText.Length;
+            var afterCodingSize = outputText.Length + resourses.Length;
             return beforeCodingSize / afterCodingSize;
         }
 
-        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Decode(string inputText, out string outputText, string resourses)
         {
-            var inputNumber = File.ReadAllText(inputFilePath);
-
-            var jsonResourse = File.ReadAllText(resoursesPath);
+            var jsonResourse = resourses;
 
             alphabetOfProbabilities = JsonConvert.DeserializeObject<SortedList<char, uint>>(jsonResourse);
 
-            var decodedText = Decoding(inputNumber);
-            File.WriteAllText(outputFilePath, decodedText);
+            var decodedText = Decoding(inputText);
+            outputText = decodedText;
         }
 
         public string Decoding(string inputNumber)
