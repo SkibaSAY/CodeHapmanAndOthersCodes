@@ -84,5 +84,25 @@ namespace CodesLibrary
             throw new NotImplementedException();
         }
     }
+    class ArrTreeNode
+    {
+        public List<ArrTreeNode> children;
 
+        //public string name;
+        public SortedList<char, int> value;
+        public ArrTreeNode()
+        {
+            //this.name = name;
+            value = new SortedList<char, int>();
+            children = new List<ArrTreeNode>();
+        }
+
+        //public int CompareTo(TreeNode other)
+        //{
+        //    if (other.value == this.value) return this.name.CompareTo(other.name);
+        //    return this.value.CompareTo(other.value);
+        //}
+    }
 }
+
+
