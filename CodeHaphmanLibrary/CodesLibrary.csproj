@@ -57,7 +57,6 @@
     <Compile Include="Codes\PhanoShenonCode.cs" />
     <Compile Include="Codes\BWT\BWTCode.cs" />
     <Compile Include="Codes\RLECode.cs" />
-    <Compile Include="Codes\TreeNode.cs" />
     <Compile Include="ICode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

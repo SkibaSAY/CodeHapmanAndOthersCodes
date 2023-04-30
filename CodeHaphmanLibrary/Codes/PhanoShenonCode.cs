@@ -57,6 +57,11 @@ namespace CodesLibrary
             return res;
         }
 
+        //private int DivideHeap()
+        //{
+
+        //}
+
         public double CompressionRate(string inputText, string outputText, string resourses)
         {
             var beforeCodingSize = inputText.Length;
