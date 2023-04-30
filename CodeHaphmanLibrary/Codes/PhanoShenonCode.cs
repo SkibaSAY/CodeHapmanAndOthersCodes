@@ -11,7 +11,7 @@ namespace CodesLibrary
 {
     public class PhanoShenonCode : ICode
     {
-        private Dictionary<char, int> dictionary = new Dictionary<char, int>();
+        private Dictionary<char, string> dictionary = new Dictionary<char, string>();
         public void Code(string inputText, out string outputText, out string resourses)
         {
             var result = Coding(inputText);
@@ -37,30 +37,75 @@ namespace CodesLibrary
                 }
             }
 
-            var listOfProbabilities = new TreeNode[alphabetOfProbabilities.Count()];
-            int i = 0;
-            foreach (var pair in alphabetOfProbabilities)
+            //fiil the tree
+            var tree = new ArrTreeNode();
+            tree.value = alphabetOfProbabilities.ToList();
+            var queue = new Queue<ArrTreeNode>();
+            queue.Enqueue(tree);
+            var currentNode = tree;
+            while (queue.Count() > 0)
             {
-                listOfProbabilities[i] = new TreeNode(pair.Key.ToString(), pair.Value);
-                i++;
+                currentNode = queue.Dequeue();
+                var pair = DivideHeap(currentNode);
+                if (pair.Item1.Count > 0 && pair.Item2.Count != 0)
+                {
+                    currentNode.leftChildren = new ArrTreeNode();
+                    currentNode.leftChildren.value = pair.Item1;
+                    currentNode.leftChildren.code = currentNode.code + "0";
+                    queue.Enqueue(currentNode.leftChildren);
+                }
+                if (pair.Item2.Count > 0)
+                {
+                    currentNode.rightChildren = new ArrTreeNode();
+                    currentNode.rightChildren.value = pair.Item2;
+                    currentNode.rightChildren.code = currentNode.code + "1";
+                    queue.Enqueue(currentNode.rightChildren);
+                }
+                else
+                {
+                    dictionary.Add(currentNode.value[0].Key, currentNode.code);
+                }
+                
             }
-            Array.Sort(listOfProbabilities);
 
-            //var nameOfNode = 
-            //var set = new TreeNode(String.Join("", alphabetOfProbabilities.Keys), alphabetOfProbabilities.Values.Sum());
-            //while ()
-            //{
-            //    var 
-            //}
-            
+            //build the code
+            foreach(var symbol in inputText)
+            {
+                res += dictionary[symbol];
+            }
+
 
             return res;
         }
 
-        //private int DivideHeap()
-        //{
+        private (List<KeyValuePair<char, int>>, List<KeyValuePair<char, int>>) DivideHeap(ArrTreeNode node)
+        {
+            var arrForDividing = node.value;
+            int sum = arrForDividing.Sum(x=> x.Value);
+            int count = arrForDividing.Count();
+            var res1 = new List<KeyValuePair<char, int>>();
+            var res2 = new List<KeyValuePair<char, int>>();
+            int sum1 = 0;
+            int sum2 = 0;
 
-        //}
+            arrForDividing = arrForDividing.OrderBy(x => x.Value).ToList();
+            for(int i = arrForDividing.Count() -1;i>=0;i--)
+            {
+                var elem = arrForDividing[i];
+                if(sum1 + elem.Value <= Math.Ceiling((decimal) (sum*1.0 / count)))
+                {
+                    res1.Add(elem);
+                    sum1 += elem.Value;
+                }
+                else
+                {
+                    res2.Add(elem);
+                    sum2 += elem.Value;
+                }
+            }
+
+            return (res1, res2);
+        }
 
         public double CompressionRate(string inputText, string outputText, string resourses)
         {
@@ -73,7 +118,7 @@ namespace CodesLibrary
         {
             var jsonResourse = resourses;
 
-            dictionary = JsonConvert.DeserializeObject<Dictionary<char, int>>(jsonResourse);
+            dictionary = JsonConvert.DeserializeObject<Dictionary<char, string>>(jsonResourse);
 
             var decodedText = Decoding(inputText);
             outputText = decodedText;
@@ -81,21 +126,41 @@ namespace CodesLibrary
 
         public string Decoding(string outputText)
         {
-            throw new NotImplementedException();
+            var res = "";
+
+            var codedText = outputText;
+            while(codedText != "")
+            {
+                var currentCode = codedText[0].ToString();
+                int i = 0;
+                while (!dictionary.ContainsValue(currentCode))
+                {
+                    i++;
+                    currentCode += codedText[i].ToString();
+                }
+                var letter = dictionary.First(x => x.Value == currentCode);
+                res += letter.Key;
+                codedText = codedText.Remove(0, currentCode.Length);
+            }
+
+            return res;
         }
     }
     class ArrTreeNode
     {
-        public List<ArrTreeNode> children;
+        public ArrTreeNode leftChildren;
+        public ArrTreeNode rightChildren;
 
         //public string name;
-        public SortedList<char, int> value;
+        public List<KeyValuePair<char, int>> value;
+        public string code;
         public ArrTreeNode()
         {
             //this.name = name;
-            value = new SortedList<char, int>();
-            children = new List<ArrTreeNode>();
+            value = new List<KeyValuePair<char, int>>();
+            code = "";
         }
+
 
         //public int CompareTo(TreeNode other)
         //{

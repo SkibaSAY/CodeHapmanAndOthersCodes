@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CodesLibrary;
+using Newtonsoft.Json;
 
 namespace Wormochka
 {
@@ -88,6 +89,37 @@ namespace Wormochka
             }
 
             var decodeText = ariphCode.Decoding(codedText);
+            decryptText.Text = decodeText;
+        }
+
+        private void FanoShennon_Click(object sender, RoutedEventArgs e)
+        {
+            var sd = new OpenFileDialog();
+            if (sd.ShowDialog() == false) return;
+            var text = File.ReadAllText(sd.FileName);
+            inputText.Text = text;
+            var fanoShennonCode = new PhanoShenonCode();
+
+            var codedText = "";
+            var resources = "";
+            try
+            {
+                fanoShennonCode.Code(text,out codedText ,out resources);
+                encryptText.Text = codedText;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+           var dictionary = JsonConvert.DeserializeObject<Dictionary<char, string>>(resources);
+            foreach(var pair in dictionary)
+            {
+                codesText.Text += pair.Key + "-" +pair.Value + "\n";
+            }
+
+            var decodeText = "";
+            fanoShennonCode.Decode(codedText, out decodeText, resources);
             decryptText.Text = decodeText;
         }
     }
