@@ -194,7 +194,7 @@ namespace CodesLibrary
 
     
 }
-public class TreeNode : IComparable<TreeNode>
+class TreeNode : IComparable<TreeNode>
 {
     public List<TreeNode> children;
 
