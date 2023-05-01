@@ -18,13 +18,16 @@ namespace HapmanCode
         }
         static void PreobrazBArrouzeYileraCode()
         {
-            //var str = "abcabcabca";
-            var str = "abcabcabcaasdasdfgarqdfsacsdfawsewasxdasdasdad";
+            //var text = "abcabcabca";
+            //var text = "abcabcabcaasdasdfgarqdfsacsdfawsewasxdasdasdad";
+            string file = "input3.txt";
+            var text = File.ReadAllText(file);
+
             var bwt = new BWTCode();
-            var result = bwt.Coding(str);
+            var result = bwt.Coding(text);
 
             var decodingResult = bwt.Decoding(result);
-            if (!str.Equals(decodingResult))
+            if (!text.Equals(decodingResult))
             {
                 throw new Exception("Что то пошло не так.");
             }

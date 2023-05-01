@@ -31,7 +31,7 @@ namespace CodeHaphmanLibrary.Codes
             return sb.ToString();
         }
 
-        private static Regex rleRegex = new Regex(@"(?<char>\w+?)(?<count>\d+?)");
+        private static Regex rleRegex = new Regex(@"(?<char>\D+?)(?<count>\d+?)");
         public static string Decoding(string inputStr)
         {
             var sb = new StringBuilder();
