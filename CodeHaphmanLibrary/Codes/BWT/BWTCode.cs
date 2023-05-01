@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CodesLibrary
 {
-    public class BWTCode : ICode
+    public class BWTCode
     {
         public void Code(string inputText, out string outputText, out string resourses)
         {
@@ -42,10 +42,10 @@ namespace CodesLibrary
             return result;
         }
 
-        public double CompressionRate(string inputText, string outputText, string resourses)
+        public double CompressionRate(string inputText, string outputText)
         {
             var rate = inputText.Length * 8.0 / ((outputText.Length - 1) * 8);
-            return rate;
+            return Math.Round(rate,2);
         }
 
         public void Decode(string inputText, out string outputText, string resourses)

@@ -83,11 +83,12 @@ namespace CodesLibrary
             return res + stringCodeEnd[0];
 
         }
-        public decimal CompressionRate(string inputText, string outputText, string resourses)
+        public double CompressionRate(string inputText, string outputText)
         {
-            var beforeCodingSize = inputText.Length;
-            var afterCodingSize = outputText.Length + resourses.Length;
-            return beforeCodingSize / afterCodingSize;
+            var beforeCodingSize = inputText.Length*8;
+            var resoursesSize = alphabetOfProbabilities.Sum(x=> Math.Log(x.Value,2) + 8);
+            var afterCodingSize = outputText.Length*4 + resoursesSize;
+            return Math.Round(beforeCodingSize / afterCodingSize, 2);
         }
 
         public void Decode(string inputText, out string outputText, string resourses)

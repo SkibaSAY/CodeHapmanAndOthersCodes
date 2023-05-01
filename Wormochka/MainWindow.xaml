@@ -23,39 +23,42 @@
                 <Grid.RowDefinitions>
                     <RowDefinition  Height="4*"/>
                     <RowDefinition Height="75*"/>
+                    <RowDefinition  Height="4*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="88*"/>
-                    <ColumnDefinition Width="13*"/>
                     <ColumnDefinition Width="101*"/>
+                    <ColumnDefinition Width="70*"/>
                     <ColumnDefinition Width="101*"/>
                     <ColumnDefinition Width="101*"/>
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Входные данные" Foreground="#FFE5E1E1" FontSize="16" Margin="0,0,0.2,0.4" Grid.ColumnSpan="2"/>
-                <ScrollViewer x:Name="inputView" Grid.Column="0" Margin="0,34,0.2,-0.4" Foreground="#FF67F3CA" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <ScrollViewer x:Name="inputView" Grid.Column="0" Margin="0,34,0.2,-0.4" Foreground="#FF67F3CA" Grid.RowSpan="3" Grid.Row="0">
 
                     <TextBlock Name="inputText" FontSize="16" FontWeight="DemiBold" TextWrapping="Wrap" Padding="15,20,15,0"/>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
-                <Label Content="Код" Foreground="#FFE5E1E1" FontSize="16" Grid.ColumnSpan="2" Margin="38.6,0,0.4,0.4" Grid.Column="1"/>
-                <ScrollViewer x:Name="codesView" Margin="38.6,34,0.4,-0.4" Foreground="#FF0078D7" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1">
+                <Label Content="Код" Foreground="#FFE5E1E1" FontSize="16" Margin="0,0,0.4,0.4" Grid.Column="1"/>
+                
+                <ScrollViewer x:Name="codesView" Margin="0,34,0.4,-0.4" Foreground="#FF0078D7" Grid.RowSpan="2" Grid.Column="1">
                     <TextBlock Name="codesText" FontSize="16" FontWeight="DemiBold" TextWrapping="Wrap" Padding="15,20,15,0"/>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="#FF67F3CA"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
-                <Label Content="Закодированный текст" Foreground="#FFE5E1E1" FontSize="16" Grid.Column="2" Grid.ColumnSpan="3" Margin="302.8,0,302.8,0.4"/>
-                <ScrollViewer x:Name="encryptView" Grid.Column="2" Foreground="#FF67F3CA" Grid.ColumnSpan="3" Margin="302.8,34,302.8,-0.4" Grid.RowSpan="2" >
+                <Label Content="Сжатие" Foreground="#FFE5E1E1" FontSize="16" Margin="0,0,0.4,0.4" Grid.Column="1" Grid.Row="2"/>
+                <Label x:Name="compression" Content="0" Foreground="#FFE5E1E1" FontSize="16" Margin="0,0,25,0.4" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right"/>
+                <Label Content="Закодированный текст" Foreground="#FFE5E1E1" FontSize="16" Grid.Column="2" Margin="0,0,0,0.4"/>
+                <ScrollViewer x:Name="encryptView" Grid.Column="2" Foreground="#FF67F3CA" Margin="0,34,0,-0.4" Grid.RowSpan="3" >
                     <TextBlock Name="encryptText" FontSize="16" FontWeight="DemiBold" TextWrapping="Wrap" Padding="15,20,15,0"/>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="#FF0078D7"/>
                     </ScrollViewer.Background>
                 </ScrollViewer>
                 <Label Content="Раскодированный текст" Foreground="#FFE5E1E1" FontSize="16" Grid.Column="4" Margin="0.4,0,-0.2,0.4"/>
-                <ScrollViewer x:Name="decryptView" Grid.Column="4" Foreground="#FF0078D7" Margin="0.4,34,-0.2,-0.4" Grid.RowSpan="2">
+                <ScrollViewer x:Name="decryptView" Grid.Column="4" Foreground="#FF0078D7" Margin="0.4,34,-0.2,-0.4" Grid.RowSpan="3">
                     <TextBlock Name="decryptText" FontSize="16" FontWeight="DemiBold" TextWrapping="Wrap" Padding="15,20,15,0"/>
                     <ScrollViewer.Background>
                         <SolidColorBrush Color="#FF67F3CA"/>

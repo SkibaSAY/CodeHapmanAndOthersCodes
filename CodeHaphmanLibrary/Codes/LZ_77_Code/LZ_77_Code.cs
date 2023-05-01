@@ -63,7 +63,7 @@ namespace CodesLibrary
         {
             var marks = JsonConvert.DeserializeObject<List<Lz77Mark>>(resourses);
             var compressionRate = inputText.Length * 8.0 / (marks.Count * 8 * 3);
-            return compressionRate;
+            return Math.Round(compressionRate,2);
         }
 
         public void Decode(string inputText, out string outputText, string resourses)

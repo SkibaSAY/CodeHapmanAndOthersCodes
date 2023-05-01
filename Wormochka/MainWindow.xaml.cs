@@ -43,6 +43,9 @@ namespace Wormochka
             encryptText.Text = codedText;
             var decodText = HaphmanCode.Decoding(codedText, dict);
             decryptText.Text = decodText;
+
+
+            compression.Content = HaphmanCode.CompressionRate(codedText, decodText, dict);
         }
 
         private void RunHemming_Click(object sender, RoutedEventArgs e)
@@ -67,6 +70,7 @@ namespace Wormochka
             //тут всё верно. Делаем вид, что входная строка - это уже код и исправляем
             var decodeText = hemmingCode.Decoding(text);
             decryptText.Text = decodeText;
+            compression.Content = "0";
         }
 
         private void RunAriph_Click(object sender, RoutedEventArgs e)
@@ -90,6 +94,7 @@ namespace Wormochka
 
             var decodeText = ariphCode.Decoding(codedText);
             decryptText.Text = decodeText;
+            compression.Content = ariphCode.CompressionRate(text, codedText);
         }
 
         private void FanoShennon_Click(object sender, RoutedEventArgs e)
@@ -121,6 +126,7 @@ namespace Wormochka
             var decodeText = "";
             fanoShennonCode.Decode(codedText, out decodeText, resources);
             decryptText.Text = decodeText;
+            compression.Content = fanoShennonCode.CompressionRate(text, codedText);
         }
 
         private void LZ77_Click(object sender, RoutedEventArgs e)
@@ -150,6 +156,7 @@ namespace Wormochka
             var decodeText = "";
             lz77.Decode(codedText, out decodeText, resources);
             decryptText.Text = decodeText;
+            compression.Content = lz77.CompressionRate(text, codedText, resources);
         }
 
         private void RLE_Click(object sender, RoutedEventArgs e)
@@ -173,6 +180,7 @@ namespace Wormochka
           
             var decodingResult = bwt.Decoding(bwtText);
             decryptText.Text = decodingResult;
+            compression.Content = bwt.CompressionRate(text, encryptText.Text);
         }
     }
 }

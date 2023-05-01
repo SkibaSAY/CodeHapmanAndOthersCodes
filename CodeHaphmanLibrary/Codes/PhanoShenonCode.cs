@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace CodesLibrary
 {
-    public class PhanoShenonCode : ICode
+    public class PhanoShenonCode
     {
         private Dictionary<char, string> dictionary = new Dictionary<char, string>();
         public void Code(string inputText, out string outputText, out string resourses)
@@ -39,7 +39,7 @@ namespace CodesLibrary
 
             //fiil the tree
             var tree = new ArrTreeNode();
-            tree.value = alphabetOfProbabilities.ToList();
+            tree.value = alphabetOfProbabilities.OrderBy(x => -x.Value).ToList();
             var queue = new Queue<ArrTreeNode>();
             queue.Enqueue(tree);
             var currentNode = tree;
@@ -86,13 +86,12 @@ namespace CodesLibrary
             var res1 = new List<KeyValuePair<char, int>>();
             var res2 = new List<KeyValuePair<char, int>>();
             int sum1 = 0;
-            int sum2 = 0;
+            var half = Math.Ceiling((decimal)(sum * 1.0 / 2));
 
-            arrForDividing = arrForDividing.OrderBy(x => x.Value).ToList();
-            for(int i = arrForDividing.Count() -1;i>=0;i--)
+            for (int i = 0;i < count;i++)
             {
                 var elem = arrForDividing[i];
-                if(sum1 + elem.Value <= Math.Ceiling((decimal) (sum*1.0 / count)))
+                if(sum1 + elem.Value <= half)
                 {
                     res1.Add(elem);
                     sum1 += elem.Value;
@@ -100,18 +99,21 @@ namespace CodesLibrary
                 else
                 {
                     res2.Add(elem);
-                    sum2 += elem.Value;
                 }
             }
-
-            return (res1, res2);
+            if(res1.Count() == 0)
+            {
+                return (res2, res1);
+            }
+            return (res1,res2);
         }
 
-        public double CompressionRate(string inputText, string outputText, string resourses)
+        public double CompressionRate(string inputText, string outputText)
         {
-            var beforeCodingSize = inputText.Length;
-            var afterCodingSize = outputText.Length + resourses.Length;
-            return beforeCodingSize / afterCodingSize;
+            var beforeCodingSize = inputText.Length*8*1.0;
+            var resoursesSize = dictionary.Sum(x => x.Value.Length + 8);
+            var afterCodingSize = outputText.Length + resoursesSize;
+            return Math.Round(beforeCodingSize / afterCodingSize, 2);
         }
 
         public void Decode(string inputText, out string outputText, string resourses)

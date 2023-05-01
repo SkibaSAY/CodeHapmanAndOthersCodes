@@ -29,11 +29,12 @@ namespace CodesLibrary
             File.WriteAllText(resoursesPath, jsonResourse);
         }
 
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
+        public static double CompressionRate(string inputText, string outputText, Dictionary<char, string> resourses)
         {
-            var beforeCodingSize = new FileInfo(inputFilePath).Length;
-            var afterCodingSize = new FileInfo(outputFilePath).Length + new FileInfo(resoursesPath).Length;
-            return beforeCodingSize / afterCodingSize;
+            var beforeCodingSize = inputText.Length*8*1.0;
+            var resoursesSize = resourses.Sum(x => x.Value.Length + 8);
+            var afterCodingSize = outputText.Length + resoursesSize;
+            return Math.Round(beforeCodingSize / afterCodingSize,2);
         }
 
         public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
