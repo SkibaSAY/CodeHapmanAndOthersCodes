@@ -52,16 +52,14 @@ namespace CodesLibrary
         }
 
 
-        public void Code(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Code(string inputText, out string outputText, out string resourses)
         {
-            var inputText = File.ReadAllText(inputFilePath);
-
             var codedText = Coding(inputText);
 
-            File.WriteAllText(outputFilePath, codedText);
+            outputText = codedText;
 
             var jsonResourse = JsonConvert.SerializeObject(codedText);
-            File.WriteAllText(resoursesPath, jsonResourse);
+            resourses = jsonResourse;
         }
 
         public string Coding(string inputText)
@@ -137,21 +135,18 @@ namespace CodesLibrary
         }
 
 
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath = "")
+        public decimal CompressionRate(string inputText, string outputText, string resourses = "")
         {
-            var beforeCodingSize = new FileInfo(inputFilePath).Length;
-            var afterCodingSize = new FileInfo(outputFilePath).Length;
+            var beforeCodingSize = inputText.Length;
+            var afterCodingSize = outputText.Length;
             return beforeCodingSize / afterCodingSize;
         }
 
 
-        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath = "")
+        public void Decode(string inputText, out string outputText, string resourses = "")
         {
-            var inputText = File.ReadAllText(inputFilePath);
-
-
             var decodedText = Decoding(inputText);
-            File.WriteAllText(outputFilePath, decodedText);
+            outputText = decodedText;
         }
 
         public string Decoding(string inputText)

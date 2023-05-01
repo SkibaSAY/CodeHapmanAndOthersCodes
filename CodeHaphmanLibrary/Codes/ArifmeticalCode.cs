@@ -13,14 +13,13 @@ namespace CodesLibrary
     {
         public SortedList<char, uint> alphabetOfProbabilities = new SortedList<char, uint>();
 
-        public void Code(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Code(string inputText, out string outputText, out string resourses)
         {
-            var inputText = File.ReadAllText(inputFilePath);
             var result = Coding(inputText);
-            File.WriteAllText(outputFilePath, result);
+            outputText = result;
 
             var jsonResourse = JsonConvert.SerializeObject(alphabetOfProbabilities);
-            File.WriteAllText(resoursesPath, jsonResourse);
+            resourses = jsonResourse;
         }
 
         public string Coding(string inputText)
@@ -47,42 +46,36 @@ namespace CodesLibrary
 
             foreach (var symbol in inputText)
             {
-                var curIndexInAlph = alphabetOfProbabilities.IndexOfKey(symbol);
                 var lengthOfInterval = currentCodeEnd - currentCodeStart;
-                var startOfInterval = currentCodeStart;
-                currentCodeStart = 0;
                 foreach (var letter in alphabetOfProbabilities)
                 {
                     if (letter.Key == symbol) break;
-                    currentCodeStart += letter.Value;
+                    currentCodeStart += letter.Value * lengthOfInterval / countOfLetters;
                 }
-
-                currentCodeStart *= lengthOfInterval / countOfLetters;
-                currentCodeStart += startOfInterval;
                 currentCodeEnd = currentCodeStart + alphabetOfProbabilities[symbol] * lengthOfInterval / countOfLetters;
 
-                stringCodeStart = currentCodeStart.ToString();
-                stringCodeEnd = currentCodeEnd.ToString();
+                stringCodeStart = NumberToStringStart(currentCodeStart, stringCodeStart);
+                stringCodeEnd = NumberToStringEnd(currentCodeEnd, stringCodeStart);
+                stringCodeEnd = TrimByStart(stringCodeEnd, stringCodeStart);
 
-                while(stringCodeStart.Length > stringCodeEnd.Length)
-                {
-                    stringCodeEnd += "0";
-                }
-
-                while(stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0] &&
-                    stringCodeStart[1]!='0' && stringCodeEnd[1] != '0')
+                while (stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0])
                 {
                     if (stringCodeStart[0] != ',')
                     {
                         res += stringCodeStart[0];
                     }
-                    else if(!res.Contains("."))
+                    else if(!res.Contains(","))
                     {
                         res += ",";
                     }
                     stringCodeStart = stringCodeStart.Remove(0, 1);
                     stringCodeEnd = stringCodeEnd.Remove(0, 1);
                 }
+
+                stringCodeEnd = TrimByStart(stringCodeEnd, stringCodeStart);
+                stringCodeEnd = AddZerosToEnd(stringCodeEnd, stringCodeStart);
+
+
                 currentCodeStart = double.Parse(stringCodeStart);
                 currentCodeEnd = double.Parse(stringCodeEnd);
             }
@@ -90,29 +83,28 @@ namespace CodesLibrary
             return res + stringCodeEnd[0];
 
         }
-        public decimal CompressionRate(string inputFilePath, string outputFilePath, string resoursesPath)
+        public decimal CompressionRate(string inputText, string outputText, string resourses)
         {
-            var beforeCodingSize = new FileInfo(inputFilePath).Length;
-            var afterCodingSize = new FileInfo(outputFilePath).Length;
+            var beforeCodingSize = inputText.Length;
+            var afterCodingSize = outputText.Length + resourses.Length;
             return beforeCodingSize / afterCodingSize;
         }
 
-        public void Decode(string inputFilePath, string outputFilePath, string resoursesPath)
+        public void Decode(string inputText, out string outputText, string resourses)
         {
-            var inputNumber = File.ReadAllText(inputFilePath);
-
-            var jsonResourse = File.ReadAllText(resoursesPath);
+            var jsonResourse = resourses;
 
             alphabetOfProbabilities = JsonConvert.DeserializeObject<SortedList<char, uint>>(jsonResourse);
 
-            var decodedText = Decoding(inputNumber);
-            File.WriteAllText(outputFilePath, decodedText);
+            var decodedText = Decoding(inputText);
+            outputText = decodedText;
         }
 
         public string Decoding(string inputNumber)
         {
             ulong countOfLetters = 0;
-            var codeNumber = new StringBuilder(inputNumber);
+            var codeNumber = inputNumber;
+            codeNumber += "0";
 
             //заполняем алфавит
             foreach (var symbol in alphabetOfProbabilities)
@@ -128,41 +120,52 @@ namespace CodesLibrary
 
             for (uint i = 0; i < countOfLetters;i++)
             {
-                var curNumber = double.Parse(codeNumber.ToString());
+                double curNumber;
+                if (codeNumber.Contains(","))
+                {
+                    curNumber = double.Parse(codeNumber.ToString());
+                }
+                else
+                {
+                    curNumber = -1;
+                }
                 var lengthOfInterval = currentCodeEnd - currentCodeStart;
-
+                double predNum = currentCodeStart;
                 foreach (var letter in alphabetOfProbabilities)
                 {
                     currentCodeStart += letter.Value * lengthOfInterval / countOfLetters;
-                    stringCodeStart = currentCodeStart.ToString();
-                    if (currentCodeStart > curNumber)
+                    stringCodeStart = NumberToStringStart(currentCodeStart, stringCodeStart);
+                    var stringCodeStartForCompare = stringCodeStart;
+                    if (!codeNumber.Contains(","))
+                    {
+                        stringCodeStartForCompare = stringCodeStart.Replace(",", "");
+                    }
+                    if (curNumber == -1 && stringCodeStartForCompare.CompareTo(codeNumber) > 0 || currentCodeStart > curNumber && curNumber != -1)
                     {
                         currentCodeEnd = currentCodeStart;
-                        currentCodeStart -= letter.Value * lengthOfInterval / countOfLetters;
+                        currentCodeStart = predNum;
                         res += letter.Key;
                         break;
                     }
+                    predNum = currentCodeStart;
                 }
 
-                stringCodeStart = currentCodeStart.ToString();
-                stringCodeEnd = currentCodeEnd.ToString();
-                while(stringCodeStart.Length > stringCodeEnd.Length)
+                stringCodeStart = NumberToStringStart(currentCodeStart, stringCodeStart);
+                stringCodeEnd = NumberToStringEnd(currentCodeEnd, stringCodeStart);
+                stringCodeEnd = TrimByStart(stringCodeEnd, stringCodeStart);
+
+                while (stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0])
                 {
-                    stringCodeEnd += "0";
-                }
-                while (stringCodeStart.Length > 0 && stringCodeEnd.Length > 0 && stringCodeStart[0] == stringCodeEnd[0] &&
-                    stringCodeStart[1] != '0' && stringCodeEnd[1] != '0')
-                {
-                    codeNumber.Remove(0, 1);
+                    if (stringCodeStart[0] != ',' || codeNumber[0] == ',' && stringCodeStart[0] == ',')
+                    { 
+                        codeNumber = codeNumber.Remove(0, 1);
+                    }
                     stringCodeStart = stringCodeStart.Remove(0, 1);
                     stringCodeEnd = stringCodeEnd.Remove(0, 1);
                 }
-                if(stringCodeStart.Length > codeNumber.Length && (stringCodeStart.IndexOf(",") == -1 || stringCodeStart.IndexOf(",") > codeNumber.Length))
-                {
-                    codeNumber.Append("0");
-                    stringCodeStart = stringCodeStart.Substring(0, codeNumber.Length);
-                    stringCodeEnd   = stringCodeEnd.Substring(0, codeNumber.Length);
-                }
+                stringCodeEnd = TrimByStart(stringCodeEnd, stringCodeStart);
+                stringCodeEnd = AddZerosToEnd(stringCodeEnd, stringCodeStart);
+
                 currentCodeStart = double.Parse(stringCodeStart);
                 currentCodeEnd = double.Parse(stringCodeEnd);
             }
@@ -170,5 +173,75 @@ namespace CodesLibrary
             return res;
 
         }
+        private string NumberToStringStart(double number, string stringBefore)
+        {
+            var lengthOfWholePart = WholePartOfNumLength(stringBefore);
+            stringBefore = number.ToString();
+            var newLengthOfWholePart = WholePartOfNumLength(stringBefore);
+            while (newLengthOfWholePart < lengthOfWholePart)
+            {
+                stringBefore = "0" + stringBefore;
+                newLengthOfWholePart = WholePartOfNumLength(stringBefore);
+            }
+            return stringBefore;
+        }
+        private string NumberToStringEnd(double number, string startOfInterval)
+        {
+            var stringBefore = number.ToString();
+            var lengthOfWholePart = WholePartOfNumLength(stringBefore);
+
+            var newLengthOfWholePart = WholePartOfNumLength(startOfInterval);
+
+            while (newLengthOfWholePart > lengthOfWholePart)
+            {
+                stringBefore = "0" + stringBefore;
+                lengthOfWholePart = WholePartOfNumLength(stringBefore);
+            }
+            return stringBefore;
+        }
+        
+        private string AddZerosToEnd(string stringCodeEnd,string stringCodeStart)
+        { 
+            var wholePartStart = WholePartOfNumLength(stringCodeStart);
+            var wholePartEnd = WholePartOfNumLength(stringCodeEnd);
+            while (wholePartStart > wholePartEnd)
+            {
+                stringCodeEnd += "0";
+                wholePartEnd = WholePartOfNumLength(stringCodeEnd);
+            }
+            return stringCodeEnd;
+        }
+        private int WholePartOfNumLength(string num)
+        {
+            var lengthOfWholePart = num.IndexOf(",");
+            if (lengthOfWholePart < 0) lengthOfWholePart = num.Length;
+            return lengthOfWholePart;
+        }
+        private string TrimByStart(string stringCodeEnd, string stringCodeStart)
+        {
+            var doublePartStart = DoublePartOfNumLength(stringCodeStart);
+            var doublePartEnd = DoublePartOfNumLength(stringCodeEnd);
+            while (doublePartStart < doublePartEnd)
+            {
+                stringCodeEnd = stringCodeEnd.Remove(stringCodeEnd.Length-1);
+                doublePartEnd = DoublePartOfNumLength(stringCodeEnd);
+            }
+            return stringCodeEnd;
+        }
+        private int DoublePartOfNumLength(string num)
+        {
+            var lengthOfDoublePart = num.IndexOf(",");
+            if (lengthOfDoublePart < 0)
+            {
+                lengthOfDoublePart = 0;
+            }
+            else
+            {
+                lengthOfDoublePart = num.Length - lengthOfDoublePart - 1;
+            }
+            return lengthOfDoublePart;
+        }
     }
 }
+
+

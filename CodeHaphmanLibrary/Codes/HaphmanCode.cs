@@ -192,13 +192,13 @@ namespace CodesLibrary
         #endregion
     }
 
-    internal class TreeNode:IComparable<TreeNode>
+    class TreeNode : IComparable<TreeNode>
     {
         public List<TreeNode> children;
 
         public string name;
         public int value;
-        public TreeNode(string name,int value = 0)
+        public TreeNode(string name, int value = 0)
         {
             this.name = name;
             this.value = value;
@@ -212,3 +212,4 @@ namespace CodesLibrary
         }
     }
 }
+
