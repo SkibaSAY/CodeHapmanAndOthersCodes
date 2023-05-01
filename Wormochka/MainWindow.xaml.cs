@@ -45,7 +45,7 @@ namespace Wormochka
             decryptText.Text = decodText;
 
 
-            compression.Content = HaphmanCode.CompressionRate(codedText, decodText, dict);
+            compression.Content = HaphmanCode.CompressionRate(text, codedText, dict);
         }
 
         private void RunHemming_Click(object sender, RoutedEventArgs e)
