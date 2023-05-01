@@ -122,5 +122,57 @@ namespace Wormochka
             fanoShennonCode.Decode(codedText, out decodeText, resources);
             decryptText.Text = decodeText;
         }
+
+        private void LZ77_Click(object sender, RoutedEventArgs e)
+        {
+            var sd = new OpenFileDialog();
+            if (sd.ShowDialog() == false) return;
+            var text = File.ReadAllText(sd.FileName);
+            inputText.Text = text;
+            var lz77 = new LZ_77_Code();
+
+            var codedText = "";
+            var resources = "";
+            try
+            {
+                lz77.Code(text, out codedText, out resources);
+                var dictionary = JsonConvert.DeserializeObject<List<Lz77Mark>>(resources);
+                foreach (var pair in dictionary)
+                {
+                    encryptText.Text += pair + "\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            var decodeText = "";
+            lz77.Decode(codedText, out decodeText, resources);
+            decryptText.Text = decodeText;
+        }
+
+        private void RLE_Click(object sender, RoutedEventArgs e)
+        {
+            var sd = new OpenFileDialog();
+            if (sd.ShowDialog() == false) return;
+            var text = File.ReadAllText(sd.FileName);
+            inputText.Text = text;
+
+            var bwt = new BWTCode();
+            var bwtText = bwt.Coding(text);
+
+            try
+            {
+                encryptText.Text = bwtText.lastColumn+" "+bwtText.rowNumber;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+          
+            var decodingResult = bwt.Decoding(bwtText);
+            decryptText.Text = decodingResult;
+        }
     }
 }

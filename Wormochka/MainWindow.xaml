@@ -16,7 +16,8 @@
                 <Button x:Name="RunHemming" Content="Хэмминг" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="150" Background="{x:Null}" Foreground="#FF67F3CA" Click="RunHemming_Click" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover"/>
                 <Button x:Name="RunAriph" Content="Ариф. кодирование" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="165" Background="{x:Null}" Foreground="#FF67F3CA" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover" Click="RunAriph_Click"/>
                 <Button x:Name="RunFanoShennon" Content="Фано-Шеннон" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="165" Background="{x:Null}" Foreground="#FF67F3CA" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover" Click="FanoShennon_Click"/>
-
+                <Button x:Name="RunLZ77" Content="LZ77" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="100" Background="{x:Null}" Foreground="#FF67F3CA" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover" Click="LZ77_Click"/>
+                <Button x:Name="RunRLE" Content="RLE" Height="35"  Padding="0,0,0,0" BorderThickness="0,0,0,0" Width="100" Background="{x:Null}" Foreground="#FF67F3CA" FontSize="16" FontWeight="Bold" BorderBrush="#FF1638DF" UseLayoutRounding="False" Cursor="Hand" AutomationProperties.IsOffscreenBehavior="Onscreen" ClickMode="Hover" Click="RLE_Click"/>
             </Menu>
             <Grid>
                 <Grid.RowDefinitions>
