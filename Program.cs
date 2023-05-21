@@ -14,7 +14,8 @@ namespace HapmanCode
         {
             //HaphmanCodeTest();
             //Lz77CodeTest();
-            PreobrazBArrouzeYileraCode();
+            //PreobrazBArrouzeYileraCode();
+            Linear5_2_Test();
         }
         static void PreobrazBArrouzeYileraCode()
         {
@@ -53,6 +54,18 @@ namespace HapmanCode
             var k = code.CompressionRate(input, null, resources);
 
             code.Decode(null,out string outPut, resources);
+        }
+
+        static void Linear5_2_Test()
+        {
+            var input = "1100101";
+            var code = new Linear5_2Code();
+
+            code.Code(input, out string output, out string resources);
+
+            var k = code.CompressionRate(input, null, resources);
+
+            code.Decode(output, out output, resources);
         }
     }
 }

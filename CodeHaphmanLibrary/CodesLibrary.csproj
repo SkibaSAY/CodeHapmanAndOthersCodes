@@ -49,6 +49,7 @@
     <Compile Include="Codes\HaphmanCode.cs" />
     <Compile Include="Codes\HemmingCode.cs" />
     <Compile Include="Codes\Linear5_2Code.cs" />
+    <Compile Include="Codes\Linear5_2\Matrix.cs" />
     <Compile Include="Codes\LZ_77_Code\BrutForce.cs" />
     <Compile Include="Codes\LZ_77_Code\IBuffer.cs" />
     <Compile Include="Codes\LZ_77_Code\Lz77Mark.cs" />
