@@ -33,7 +33,7 @@ namespace CodesLibrary
                 sizeOfCodingMatrix++;
                 widthOfCodeMatrix++;
             }
-
+            stepsOf2.Add(stepOf2);
             //заполняем матрицу Хэмминга
             codeMatrix = new bool[sizeOfCodingMatrix, widthOfCodeMatrix];
             bool currentBit;
