@@ -33,6 +33,51 @@ namespace CodesLibrary
             { 1,1,   0,0,1 }
         },3, 5);
 
+        /// <summary>
+        /// Таблица восстанавления ошибок
+        /// key:v+e, value:v
+        /// Я отказался от синдрома, он тут не обязателен, дерево вполне справляется с поискать исходного сообщения
+        /// </summary>
+        private Dictionary<string, string> TableOfErors = new Dictionary<string, string>
+        {
+            { "00000","00000" },
+            { "10111","10111" },
+            { "01011","01011" },
+            { "11100","11100" },
+
+            { "10000","00000" },
+            { "01000","00000" },
+            { "00100","00000" },
+            { "00010","00000" },
+            { "00001","00000" },
+            { "10001","00000" },
+            { "10010","00000" },
+
+            { "00111","10111" },
+            { "11111","10111" },
+            { "10011","10111" },
+            { "10101","10111" },
+            { "10110","10111" },
+            { "00110","10111" },
+            { "00101","10111" },
+
+            { "11011","01011" },
+            { "00011","01011" },
+            { "01111","01011" },
+            { "01001","01011" },
+            { "01010","01011" },
+            { "11010","01011" },
+            { "11001","01011" },
+
+            { "01100","11100" },
+            { "10100","11100" },
+            { "11000","11100" },
+            { "11110","11100" },
+            { "11101","11100" },
+            { "01101","11100" },
+            { "01110","11100" },
+        };
+
         private Matrix H_Trans;
 
         public Linear5_2Code()
@@ -84,12 +129,15 @@ namespace CodesLibrary
 
                 list_v_e.Add(current);
             }
-            var sindromArr = list_v_e.Select(v_e => String.Join("", (v_e * H_Trans).GetItems())).ToArray();
-            
 
+            //var sindromArr = list_v_e.Select(v_e => String.Join("", (v_e * H_Trans).GetItems())).ToArray();
+            var decodedMessages = list_v_e.Select(v_e => String.Join("", v_e.GetItems())).Select(v_e => TableOfErors[v_e].Substring(0, k)).ToArray();
+            var message = String.Join("", decodedMessages);
 
-            outputText = sundrom;
+            //в ресурсы мы положили число элементов в исходной сообщении
+            //это важно, тк исходное сообщение могло быть нечётной длины
+            message = message.Substring(0, int.Parse(resourses));
+            outputText = message;
         }
-        private string GetFrom
     }
 }

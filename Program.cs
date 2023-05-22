@@ -63,9 +63,10 @@ namespace HapmanCode
 
             code.Code(input, out string output, out string resources);
 
-            var k = code.CompressionRate(input, null, resources);
+            var output_error = "11000010001111110111";
+            //var k = code.CompressionRate(input, null, resources);
 
-            code.Decode(output, out output, resources);
+            code.Decode(output_error, out output, resources);
         }
     }
 }
