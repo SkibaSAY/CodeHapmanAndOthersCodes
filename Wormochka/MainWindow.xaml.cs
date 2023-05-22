@@ -73,6 +73,11 @@ namespace Wormochka
             compression.Content = "0";
         }
 
+        private void RunLinear_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Линейный код работает только в консоли");
+        }
+
         private void RunAriph_Click(object sender, RoutedEventArgs e)
         {
             var sd = new OpenFileDialog();
